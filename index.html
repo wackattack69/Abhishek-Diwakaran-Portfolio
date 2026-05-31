@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Abhishek Diwakaran — Digital Marketing & Content Creator</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --black: #080808;
+    --white: #f5f0e8;
+    --cream: #e8dfc8;
+    --gold: #c9a84c;
+    --gold-light: #f0d080;
+    --accent: #e05c2a;
+    --muted: #555045;
+    --card-bg: #111009;
+    --border: rgba(201,168,76,0.18);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Mono', monospace;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed; pointer-events: none; z-index: 9999;
+    transition: transform 0.15s ease;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    position: fixed; pointer-events: none; z-index: 9998;
+    transition: all 0.3s ease;
+    mix-blend-mode: difference;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 1;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; opacity: 0.5;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.5rem 4rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(8,8,8,0.85);
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+  }
+  .nav-links { display: flex; gap: 2.5rem; }
+  .nav-links a {
+    font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 4rem 5rem;
+    position: relative; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background: radial-gradient(ellipse 80% 60% at 70% 40%, rgba(201,168,76,0.07), transparent),
+                radial-gradient(ellipse 50% 50% at 20% 80%, rgba(224,92,42,0.06), transparent);
+  }
+  .hero-grid {
+    position: absolute; inset: 0; z-index: 0;
+    background-image: linear-gradient(var(--border) 1px, transparent 1px),
+                      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse 70% 80% at 50% 50%, black 40%, transparent 100%);
+  }
+  .hero-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(10rem, 22vw, 22rem);
+    line-height: 0.85;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(201,168,76,0.12);
+    position: absolute; right: -1rem; top: 50%; transform: translateY(-60%);
+    user-select: none; z-index: 0;
+    animation: fadeIn 2s ease forwards;
+  }
+  .hero-content { position: relative; z-index: 2; max-width: 780px; }
+  .hero-tag {
+    font-size: 0.6rem; letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .hero-tag::before {
+    content: ''; width: 40px; height: 1px; background: var(--gold);
+  }
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 300; line-height: 1.0;
+    color: var(--cream);
+    animation: slideUp 1s ease 0.3s both;
+  }
+  .hero-name em { font-style: italic; color: var(--gold); }
+  .hero-desc {
+    margin-top: 2rem; max-width: 520px;
+    font-size: 0.75rem; line-height: 2; color: var(--muted);
+    animation: slideUp 1s ease 0.5s both;
+  }
+  .hero-cta {
+    margin-top: 3rem; display: flex; gap: 1.5rem; align-items: center;
+    animation: slideUp 1s ease 0.7s both;
+  }
+  .btn-primary {
+    background: var(--gold); color: var(--black);
+    padding: 0.85rem 2.5rem;
+    font-family: 'DM Mono', monospace; font-size: 0.65rem;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    border: none; cursor: none; text-decoration: none;
+    transition: background 0.3s, transform 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-outline {
+    color: var(--white); font-size: 0.65rem;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    text-decoration: none; border-bottom: 1px solid var(--muted);
+    padding-bottom: 2px; transition: color 0.3s, border-color 0.3s;
+  }
+  .btn-outline:hover { color: var(--gold); border-color: var(--gold); }
+
+  .hero-scroll {
+    position: absolute; right: 4rem; bottom: 3rem;
+    writing-mode: vertical-rl; font-size: 0.55rem;
+    letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--muted); display: flex; align-items: center; gap: 1rem;
+    z-index: 2;
+  }
+  .hero-scroll::after {
+    content: ''; width: 1px; height: 60px; background: var(--gold);
+    animation: scrollLine 2s ease-in-out infinite;
+  }
+
+  /* SECTION SHARED */
+  section { position: relative; z-index: 2; padding: 7rem 4rem; }
+  .section-label {
+    font-size: 0.55rem; letter-spacing: 0.4em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .section-label::before { content: ''; width: 30px; height: 1px; background: var(--gold); }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 300; line-height: 1.1; color: var(--cream);
+    margin-bottom: 1.5rem;
+  }
+  .section-title em { font-style: italic; color: var(--gold); }
+  .divider {
+    width: 100%; height: 1px;
+    background: linear-gradient(90deg, var(--gold) 0%, transparent 100%);
+    margin: 0 0 5rem;
+  }
+
+  /* ABOUT */
+  #about { background: var(--card-bg); }
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6rem;
+    align-items: start; margin-top: 3rem;
+  }
+  .about-text p {
+    font-size: 0.78rem; line-height: 2.2; color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+  .about-text p span { color: var(--cream); }
+  .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .stat-box {
+    border: 1px solid var(--border); padding: 2rem;
+    position: relative; overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .stat-box::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 3px; height: 0; background: var(--gold);
+    transition: height 0.4s ease;
+  }
+  .stat-box:hover { border-color: var(--gold); }
+  .stat-box:hover::before { height: 100%; }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3.5rem; color: var(--gold); line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--muted); margin-top: 0.5rem;
+  }
+
+  /* EXPERTISE */
+  #expertise { }
+  .expertise-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+    margin-top: 3rem;
+  }
+  .expertise-card {
+    background: var(--card-bg); padding: 3rem 2.5rem;
+    position: relative; overflow: hidden;
+    transition: transform 0.3s ease;
+    border: 1px solid var(--border);
+  }
+  .expertise-card:hover { transform: translateY(-6px); border-color: rgba(201,168,76,0.4); }
+  .expertise-card::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+    height: 2px; background: var(--gold);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .expertise-card:hover::after { transform: scaleX(1); }
+  .card-icon {
+    font-size: 2rem; margin-bottom: 1.5rem;
+    display: block;
+  }
+  .card-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 4rem; color: rgba(201,168,76,0.08);
+    position: absolute; top: 1rem; right: 1.5rem;
+    line-height: 1; user-select: none;
+  }
+  .card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; font-weight: 400; color: var(--cream);
+    margin-bottom: 1rem;
+  }
+  .card-desc {
+    font-size: 0.67rem; line-height: 2.1; color: var(--muted);
+  }
+
+  /* AI SECTION */
+  #ai {
+    background: var(--card-bg);
+    background-image: radial-gradient(ellipse 60% 50% at 80% 50%, rgba(201,168,76,0.05), transparent);
+  }
+  .ai-inner {
+    display: grid; grid-template-columns: 1fr 1.2fr; gap: 6rem;
+    align-items: center; margin-top: 3rem;
+  }
+  .ai-left .big-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 10vw, 9rem);
+    line-height: 0.9; color: transparent;
+    -webkit-text-stroke: 1px rgba(201,168,76,0.3);
+  }
+  .ai-right { }
+  .ai-tools { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 2rem; }
+  .ai-tool {
+    border: 1px solid var(--border);
+    padding: 0.5rem 1rem;
+    font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--muted); transition: all 0.3s;
+  }
+  .ai-tool:hover { border-color: var(--gold); color: var(--gold); }
+  .ai-tool.hot { border-color: var(--accent); color: var(--accent); }
+  .ai-desc {
+    font-size: 0.75rem; line-height: 2.2; color: var(--muted); margin-bottom: 1rem;
+  }
+  .ai-desc span { color: var(--cream); }
+
+  /* CERTIFICATIONS */
+  #certifications { }
+  .cert-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;
+    margin-top: 3rem;
+  }
+  .cert-item {
+    border: 1px solid var(--border);
+    padding: 2rem 2.5rem; display: flex; align-items: flex-start; gap: 1.5rem;
+    background: var(--card-bg);
+    transition: border-color 0.3s, background 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .cert-item:hover { border-color: rgba(201,168,76,0.5); }
+  .cert-item:hover .cert-glow { opacity: 1; }
+  .cert-glow {
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 20% 50%, rgba(201,168,76,0.04), transparent 60%);
+    opacity: 0; transition: opacity 0.4s;
+  }
+  .cert-icon {
+    width: 48px; height: 48px; min-width: 48px;
+    border: 1px solid var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; color: var(--gold);
+  }
+  .cert-body { }
+  .cert-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem; font-weight: 400; color: var(--cream);
+    margin-bottom: 0.4rem;
+  }
+  .cert-by {
+    font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 0.8rem;
+  }
+  .cert-desc { font-size: 0.65rem; line-height: 1.9; color: var(--muted); }
+  .cert-year {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem; color: var(--gold);
+    margin-left: auto; min-width: 50px; text-align: right;
+  }
+
+  /* SERVICES */
+  #services { background: var(--card-bg); }
+  .services-list { margin-top: 3rem; }
+  .service-row {
+    display: flex; align-items: center;
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 0; gap: 2rem;
+    transition: padding-left 0.3s; cursor: none;
+  }
+  .service-row:hover { padding-left: 1.5rem; border-color: var(--gold); }
+  .service-row:hover .service-arrow { color: var(--gold); transform: translateX(6px); }
+  .service-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem; color: rgba(201,168,76,0.3); min-width: 50px;
+  }
+  .service-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem; font-weight: 300; color: var(--cream); flex: 1;
+  }
+  .service-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .stag {
+    font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 0.3rem 0.8rem; border: 1px solid var(--border); color: var(--muted);
+  }
+  .service-arrow {
+    color: var(--muted); font-size: 1.2rem;
+    transition: color 0.3s, transform 0.3s;
+  }
+
+  /* CONTACT */
+  #contact {
+    background: var(--black);
+    background-image: radial-gradient(ellipse 60% 80% at 50% 100%, rgba(201,168,76,0.06), transparent);
+    text-align: center;
+  }
+  .contact-inner { max-width: 700px; margin: 0 auto; }
+  .contact-big {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 300; line-height: 1.05; color: var(--cream);
+    margin: 2rem 0 3rem;
+  }
+  .contact-big em { font-style: italic; color: var(--gold); }
+  .contact-links {
+    display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap;
+    margin-top: 3rem;
+  }
+  .contact-link {
+    display: flex; flex-direction: column; gap: 0.3rem; align-items: center;
+    text-decoration: none;
+  }
+  .contact-link .cl-label {
+    font-size: 0.55rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted);
+  }
+  .contact-link .cl-val {
+    font-size: 0.78rem; color: var(--cream); transition: color 0.3s;
+  }
+  .contact-link:hover .cl-val { color: var(--gold); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 4rem;
+    display: flex; justify-content: space-between; align-items: center;
+    position: relative; z-index: 2;
+  }
+  .footer-copy {
+    font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted);
+  }
+  .footer-brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem; letter-spacing: 0.2em; color: var(--gold);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes scrollLine { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+
+  .reveal {
+    opacity: 0; transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.15s; }
+  .reveal-delay-2 { transition-delay: 0.3s; }
+  .reveal-delay-3 { transition-delay: 0.45s; }
+  .reveal-delay-4 { transition-delay: 0.6s; }
+  .reveal-delay-5 { transition-delay: 0.75s; }
+  .reveal-delay-6 { transition-delay: 0.9s; }
+
+  /* MARQUEE */
+  .marquee-wrap {
+    overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    padding: 1rem 0; background: rgba(201,168,76,0.03);
+    position: relative; z-index: 2;
+  }
+  .marquee-track {
+    display: flex; gap: 3rem;
+    animation: marquee 18s linear infinite;
+    white-space: nowrap; width: max-content;
+  }
+  .marquee-track span {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem; letter-spacing: 0.3em;
+    color: rgba(201,168,76,0.3);
+  }
+  .marquee-track span.hot { color: rgba(224,92,42,0.5); }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 2rem; }
+    .nav-links { display: none; }
+    section { padding: 5rem 2rem; }
+    #hero { padding: 0 2rem 4rem; }
+    .about-grid, .ai-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .expertise-grid { grid-template-columns: 1fr; }
+    .cert-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+    .hero-number { display: none; }
+    .hero-scroll { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">AD.</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#expertise">Expertise</a>
+    <a href="#ai">AI Skills</a>
+    <a href="#certifications">Certifications</a>
+    <a href="#services">Services</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-number">AD</div>
+
+  <div class="hero-content">
+    <div class="hero-tag">Available for Freelance · Mumbai, India</div>
+    <h1 class="hero-name">
+      Abhishek<br><em>Diwakaran</em>
+    </h1>
+    <p class="hero-desc">
+      Digital Marketing Strategist · AI-Powered Content Creator · Brand Growth Specialist.<br>
+      Crafting campaigns that convert, content that captivates, and brands that last.
+    </p>
+    <div class="hero-cta">
+      <a href="#contact" class="btn-primary">Hire Me</a>
+      <a href="#expertise" class="btn-outline">See My Work ↓</a>
+    </div>
+  </div>
+  <div class="hero-scroll">Scroll</div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span>SEO</span><span class="hot">•</span>
+    <span>Social Media Marketing</span><span class="hot">•</span>
+    <span>AI Content Creation</span><span class="hot">•</span>
+    <span>Google Ads</span><span class="hot">•</span>
+    <span>Canva Design</span><span class="hot">•</span>
+    <span>WordPress</span><span class="hot">•</span>
+    <span>Video Generation</span><span class="hot">•</span>
+    <span>Email Marketing</span><span class="hot">•</span>
+    <span>Content Writing</span><span class="hot">•</span>
+    <span>Brand Strategy</span><span class="hot">•</span>
+    <span>SEO</span><span class="hot">•</span>
+    <span>Social Media Marketing</span><span class="hot">•</span>
+    <span>AI Content Creation</span><span class="hot">•</span>
+    <span>Google Ads</span><span class="hot">•</span>
+    <span>Canva Design</span><span class="hot">•</span>
+    <span>WordPress</span><span class="hot">•</span>
+    <span>Video Generation</span><span class="hot">•</span>
+    <span>Email Marketing</span><span class="hot">•</span>
+    <span>Content Writing</span><span class="hot">•</span>
+    <span>Brand Strategy</span><span class="hot">•</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">Who I Am</div>
+  <h2 class="section-title">Driven by <em>results,</em><br>powered by creativity.</h2>
+  <div class="divider"></div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>
+        I'm <span>Abhishek Satyan Diwakaran</span>, a digital marketing professional and AI-savvy content creator based in Vasai, Maharashtra. With a foundation built through <span>33 modules of advanced digital marketing training</span> and real-world experience at LuxaDerme, I bring both strategic thinking and hands-on execution to every project.
+      </p>
+      <p>
+        What sets me apart is my fluency in <span>AI tools</span> — from AI image and video generation to trend research and content automation. I've trained extensively with platforms from the <span>Ten X Workshop</span>, keeping me at the cutting edge of what's possible in modern content creation.
+      </p>
+      <p>
+        I believe great marketing is part science, part storytelling. Whether it's a <span>high-converting ad campaign</span>, an SEO-optimized blog post, or a branded Canva visual — I approach every deliverable with the same obsessive attention to quality.
+      </p>
+    </div>
+    <div class="about-stats reveal reveal-delay-2">
+      <div class="stat-box">
+        <div class="stat-num">33</div>
+        <div class="stat-label">Certified Modules in<br>Digital Marketing</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">6+</div>
+        <div class="stat-label">Specialised Certifications<br>Earned</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">AI</div>
+        <div class="stat-label">Proficient in AI Tools<br>Image · Video · Text</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Creative Ideas &<br>Zero Limitations</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERTISE -->
+<section id="expertise">
+  <div class="section-label">Core Expertise</div>
+  <h2 class="section-title">The skills that <em>move</em><br>the needle.</h2>
+  <div class="divider"></div>
+  <div class="expertise-grid">
+
+    <div class="expertise-card reveal">
+      <span class="card-num">01</span>
+      <span class="card-icon">🎯</span>
+      <div class="card-title">Digital Marketing</div>
+      <p class="card-desc">Full-funnel digital marketing strategy including SEO, SEM, Google Ads, PPC campaigns, and performance analytics. Certified in Advanced Digital Marketing with 33 modules of professional training.</p>
+    </div>
+
+    <div class="expertise-card reveal reveal-delay-1">
+      <span class="card-num">02</span>
+      <span class="card-icon">📱</span>
+      <div class="card-title">Social Media Marketing</div>
+      <p class="card-desc">Platform-native strategies for Instagram, Facebook, LinkedIn, YouTube, Twitter & Pinterest. Campaign planning, Ads management, and community growth with measurable engagement lift.</p>
+    </div>
+
+    <div class="expertise-card reveal reveal-delay-2">
+      <span class="card-num">03</span>
+      <span class="card-icon">✍️</span>
+      <div class="card-title">Content Writing</div>
+      <p class="card-desc">SEO-optimised copywriting, website content, buyer persona creation, headline writing, and social media captions. I write words that rank and read beautifully.</p>
+    </div>
+
+    <div class="expertise-card reveal reveal-delay-3">
+      <span class="card-num">04</span>
+      <span class="card-icon">🎨</span>
+      <div class="card-title">Graphic Design (Canva)</div>
+      <p class="card-desc">Certified in Graphic Design & Video Creation using Canva. Creating scroll-stopping visuals, brand kits, posts, reels thumbnails, presentations, and marketing collateral.</p>
+    </div>
+
+    <div class="expertise-card reveal reveal-delay-4">
+      <span class="card-num">05</span>
+      <span class="card-icon">🔍</span>
+      <div class="card-title">SEO & SEM</div>
+      <p class="card-desc">Advanced keyword research, on-page & off-page optimisation, Google Webmaster tools, and Search Engine Marketing. Drive organic traffic and paid performance simultaneously.</p>
+    </div>
+
+    <div class="expertise-card reveal reveal-delay-5">
+      <span class="card-num">06</span>
+      <span class="card-icon">🌐</span>
+      <div class="card-title">WordPress</div>
+      <p class="card-desc">Building, managing and optimising WordPress websites. From content publishing and plugin management to SEO settings and site performance improvements for businesses and blogs.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- AI SECTION -->
+<section id="ai">
+  <div class="section-label">The AI Edge</div>
+  <h2 class="section-title">AI isn't the future —<br>it's my <em>workflow.</em></h2>
+  <div class="divider"></div>
+  <div class="ai-inner">
+    <div class="ai-left reveal">
+      <div class="big-label">AI<br>FIRST<br>MIND</div>
+    </div>
+    <div class="ai-right reveal reveal-delay-2">
+      <p class="ai-desc">
+        I've completed intensive AI training at <span>Ten X Workshop</span> and independently mastered the most powerful AI tools available today. From generating brand visuals to producing viral video content — I know how to make AI work for your brand.
+      </p>
+      <p class="ai-desc">
+        This gives me a massive productivity advantage: I can deliver <span>studio-quality output at freelance speed and pricing</span>. My AI knowledge spans text, image, video, and emerging trend automation tools.
+      </p>
+      <div class="ai-tools">
+        <div class="ai-tool hot">ChatGPT</div>
+        <div class="ai-tool hot">Midjourney</div>
+        <div class="ai-tool hot">Runway ML</div>
+        <div class="ai-tool hot">Sora</div>
+        <div class="ai-tool">Claude AI</div>
+        <div class="ai-tool">Gemini</div>
+        <div class="ai-tool">Kling AI</div>
+        <div class="ai-tool">Pika Labs</div>
+        <div class="ai-tool">Leonardo AI</div>
+        <div class="ai-tool">ElevenLabs</div>
+        <div class="ai-tool">HeyGen</div>
+        <div class="ai-tool">Canva AI</div>
+        <div class="ai-tool">Firefly</div>
+        <div class="ai-tool">Notion AI</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="section-label">Credentials</div>
+  <h2 class="section-title">Certified. <em>Verified.</em><br>Ready.</h2>
+  <div class="divider"></div>
+  <div class="cert-grid">
+
+    <div class="cert-item reveal">
+      <div class="cert-glow"></div>
+      <div class="cert-icon">🏆</div>
+      <div class="cert-body">
+        <div class="cert-name">Advanced Digital Marketing Diploma</div>
+        <div class="cert-by">DMTI Softpro Institute · Mumbai</div>
+        <div class="cert-desc">80-session programme covering SEO, SEM, Social Media, Email Marketing, Analytics, Affiliate Marketing & Digital Strategy across 33 modules.</div>
+      </div>
+      <div class="cert-year">2023</div>
+    </div>
+
+    <div class="cert-item reveal reveal-delay-1">
+      <div class="cert-glow"></div>
+      <div class="cert-icon">📊</div>
+      <div class="cert-body">
+        <div class="cert-name">Social Media Marketing Professional</div>
+        <div class="cert-by">DMTI Softpro Institute · Mumbai</div>
+        <div class="cert-desc">Certified in Facebook & Instagram Marketing, Campaign & Ads Management, LinkedIn Promotions, YouTube Video Marketing, Twitter & Pinterest.</div>
+      </div>
+      <div class="cert-year">2023</div>
+    </div>
+
+    <div class="cert-item reveal reveal-delay-2">
+      <div class="cert-glow"></div>
+      <div class="cert-icon">🔎</div>
+      <div class="cert-body">
+        <div class="cert-name">Advanced SEO Certified Professional</div>
+        <div class="cert-by">DMTI Softpro Institute · Mumbai</div>
+        <div class="cert-desc">Advanced keyword research, On-Page & Off-Page optimisation, CRM, and Google Webmaster Tools — 1-month intensive programme.</div>
+      </div>
+      <div class="cert-year">2023</div>
+    </div>
+
+    <div class="cert-item reveal reveal-delay-3">
+      <div class="cert-glow"></div>
+      <div class="cert-icon">💰</div>
+      <div class="cert-body">
+        <div class="cert-name">SEM — Search Engine Marketing</div>
+        <div class="cert-by">DMTI Softpro Institute · Mumbai</div>
+        <div class="cert-desc">PPC Bidding, Ad Campaigns, managing & operating paid campaigns to drive traffic. 30-session advanced programme.</div>
+      </div>
+      <div class="cert-year">2023</div>
+    </div>
+
+    <div class="cert-item reveal reveal-delay-4">
+      <div class="cert-glow"></div>
+      <div class="cert-icon">✍️</div>
+      <div class="cert-body">
+        <div class="cert-name">Content Writing Principles</div>
+        <div class="cert-by">DMTI Softpro Institute · Mumbai</div>
+        <div class="cert-desc">Writing strategies, website content, buyer personas, SEO copywriting, high-converting headlines & social media engagement.</div>
+      </div>
+      <div class="cert-year">2023</div>
+    </div>
+
+    <div class="cert-item reveal reveal-delay-5">
+      <div class="cert-glow"></div>
+      <div class="cert-icon">🎨</div>
+      <div class="cert-body">
+        <div class="cert-name">Graphic Design & Video Creation (Canva)</div>
+        <div class="cert-by">DMTI Softpro Institute · Mumbai</div>
+        <div class="cert-desc">Extensive module on Graphic Design and Video Creation using Canva tools — creating professional brand visuals and video content.</div>
+      </div>
+      <div class="cert-year">2023</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-label">What I Offer</div>
+  <h2 class="section-title">Services built for<br><em>modern brands.</em></h2>
+  <div class="divider"></div>
+  <div class="services-list">
+
+    <div class="service-row reveal">
+      <span class="service-num">01</span>
+      <span class="service-name">Social Media Management</span>
+      <div class="service-tags">
+        <span class="stag">Instagram</span>
+        <span class="stag">Facebook</span>
+        <span class="stag">LinkedIn</span>
+      </div>
+      <span class="service-arrow">→</span>
+    </div>
+
+    <div class="service-row reveal reveal-delay-1">
+      <span class="service-num">02</span>
+      <span class="service-name">SEO & Blog Content Writing</span>
+      <div class="service-tags">
+        <span class="stag">On-Page</span>
+        <span class="stag">Off-Page</span>
+        <span class="stag">Copywriting</span>
+      </div>
+      <span class="service-arrow">→</span>
+    </div>
+
+    <div class="service-row reveal reveal-delay-2">
+      <span class="service-num">03</span>
+      <span class="service-name">Canva Design & Brand Creatives</span>
+      <div class="service-tags">
+        <span class="stag">Posts</span>
+        <span class="stag">Reels</span>
+        <span class="stag">Presentations</span>
+      </div>
+      <span class="service-arrow">→</span>
+    </div>
+
+    <div class="service-row reveal reveal-delay-3">
+      <span class="service-num">04</span>
+      <span class="service-name">AI-Powered Content Creation</span>
+      <div class="service-tags">
+        <span class="stag">Images</span>
+        <span class="stag">Videos</span>
+        <span class="stag">Ads</span>
+      </div>
+      <span class="service-arrow">→</span>
+    </div>
+
+    <div class="service-row reveal reveal-delay-4">
+      <span class="service-num">05</span>
+      <span class="service-name">Google Ads & PPC Campaigns</span>
+      <div class="service-tags">
+        <span class="stag">SEM</span>
+        <span class="stag">Bidding</span>
+        <span class="stag">Performance</span>
+      </div>
+      <span class="service-arrow">→</span>
+    </div>
+
+    <div class="service-row reveal reveal-delay-5">
+      <span class="service-num">06</span>
+      <span class="service-name">WordPress Website Management</span>
+      <div class="service-tags">
+        <span class="stag">Content</span>
+        <span class="stag">SEO Setup</span>
+        <span class="stag">Plugins</span>
+      </div>
+      <span class="service-arrow">→</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="section-label" style="justify-content:center;">Let's Connect</div>
+    <h2 class="contact-big reveal">
+      Ready to build<br>something <em>great?</em>
+    </h2>
+    <p class="reveal reveal-delay-1" style="font-size:0.75rem;line-height:2;color:var(--muted);margin-top:1rem;">
+      I'm open to freelance projects, brand collaborations, and long-term partnerships.<br>
+      Drop me a message and let's talk.
+    </p>
+    <div class="contact-links reveal reveal-delay-2">
+      <a href="mailto:abhishekdiwakaran@gmail.com" class="contact-link">
+        <span class="cl-label">Email</span>
+        <span class="cl-val">abhishekdiwakaran@gmail.com</span>
+      </a>
+      <a href="#" class="contact-link">
+        <span class="cl-label">Location</span>
+        <span class="cl-val">Vasai, Maharashtra, India</span>
+      </a>
+      <a href="#" class="contact-link">
+        <span class="cl-label">Availability</span>
+        <span class="cl-val" style="color:var(--gold);">Open to Work ✓</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-copy">© 2025 Abhishek Satyan Diwakaran · All Rights Reserved</div>
+  <div class="footer-brand">AD.</div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  function animateCursor() {
+    cursor.style.left = mx - 6 + 'px'; cursor.style.top = my - 6 + 'px';
+    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+    ring.style.left = rx - 18 + 'px'; ring.style.top = ry - 18 + 'px';
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+  document.querySelectorAll('a, button, .service-row, .expertise-card, .cert-item, .stat-box').forEach(el => {
+    el.addEventListener('mouseenter', () => { cursor.style.transform = 'scale(2.5)'; ring.style.transform = 'scale(1.5)'; });
+    el.addEventListener('mouseleave', () => { cursor.style.transform = 'scale(1)'; ring.style.transform = 'scale(1)'; });
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.12 });
+  reveals.forEach(r => observer.observe(r));
+</script>
+</body>
+</html>
